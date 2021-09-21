@@ -17,7 +17,6 @@ app.listen(porta, async function () {
 
 app.get("/tipoDeVotacao", async function (request, response) {
     let resposta = await lerArquivo("config", ".csv", ",", "");
-    await guardarRegistro("votos", ".csv", "oi", "")
     response.send(resposta);
 });
 
