@@ -96,6 +96,29 @@ app.get("/tipoDeVotacao", function (request, response) {
         });
     });
 });
+app.get("/apuracao", function (request, response) {
+    return __awaiter(this, void 0, void 0, function () {
+        var candidatos, apuracao, votos;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, lerArquivo("candidatos", ".csv", ",", "")];
+                case 1:
+                    candidatos = _a.sent();
+                    return [4 /*yield*/, inicializarVetorApuracao(candidatos)];
+                case 2:
+                    apuracao = _a.sent();
+                    return [4 /*yield*/, (lerArquivo("votos", ".csv", ",", ""))];
+                case 3:
+                    votos = _a.sent();
+                    apuracao = obterSomatorioVotos(apuracao, votos);
+                    ordenarCandidatosMaisVotados(apuracao);
+                    console.log(apuracao);
+                    response.send(apuracao);
+                    return [2 /*return*/];
+            }
+        });
+    });
+});
 app.post("/voto", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
         var rg, nome, numeroCandidato, data, voto, resposta;
@@ -161,5 +184,105 @@ function lerArquivo(arquivo, extensao, separador, endereco) {
                     });
                 })];
         });
+    });
+}
+function inicializarVetorApuracao(candidatos) {
+    return __awaiter(this, void 0, void 0, function () {
+        var resultadosEleicao, imgsIndefinidas, imagemNulo, imagemBranco, votosNulo, votosBranco, i, informacoesCandidato;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    resultadosEleicao = [];
+                    return [4 /*yield*/, (lerArquivo("votoIndefinido", ".csv", ",", ""))];
+                case 1:
+                    imgsIndefinidas = _a.sent();
+                    imagemNulo = imgsIndefinidas[2][0];
+                    imagemBranco = imgsIndefinidas[1][0];
+                    votosNulo = ["NULO", "-----", imagemNulo, 0];
+                    votosBranco = ["BRANCO", "-----", imagemBranco, 0];
+                    resultadosEleicao.push(votosNulo);
+                    resultadosEleicao.push(votosBranco);
+                    for (i = 0; i < candidatos.length; i++) {
+                        informacoesCandidato = [];
+                        //Número do candidato
+                        informacoesCandidato.push(candidatos[i][0]);
+                        //Nome do candidato
+                        informacoesCandidato.push(candidatos[i][1]);
+                        //URL da foto do candidato
+                        informacoesCandidato.push(candidatos[i][2]);
+                        // Quantidade de votos
+                        informacoesCandidato.push(0);
+                        resultadosEleicao.push(informacoesCandidato);
+                    }
+                    return [2 /*return*/, resultadosEleicao];
+            }
+        });
+    });
+}
+/**
+ * @description Esta função é responsabilizada por realizar o somatório de votos da urna eletrônica.
+ * @param {*} resultadosEleicao Este parâmetro deve conter a matriz dos candidatos registrados no sistema, a opção de "voto nulo" e "voto em branco" inicializados com "0" votos.
+ * @param {*} votos Este parâmetro deve conter a matriz de votos registrados no sistema.
+ * @returns Retona a matriz da apuração da urna eletrônica com os votos devidamente contabilizados.
+ */
+function obterSomatorioVotos(resultadosEleicao, votos) {
+    var rgContabilizados = [];
+    for (var i = 0; i < votos.length; i++) {
+        var rgAtual = votos[i][0];
+        // Verificação dos votos do tipo "não anônimo" (com RG preenchido).
+        if (rgAtual != undefined && rgAtual != "") {
+            if (!rgContabilizados.includes(rgAtual)) {
+                rgContabilizados.push(rgAtual);
+            }
+            else {
+                continue;
+            }
+        }
+        //FIXME: Verificar possibilidade de alteração do tipo da variável  "numeroVoto".
+        var numeroVoto = votos[i][2];
+        switch (numeroVoto) {
+            case "N-U-L-O":
+                resultadosEleicao[0][3]++;
+                break;
+            case "B-R-A-N-C-O":
+                resultadosEleicao[1][3]++;
+                break;
+            default:
+                for (var j = 0; j < resultadosEleicao.length; j++) {
+                    var numeroCandidato = (resultadosEleicao[j][0]);
+                    if (numeroCandidato == numeroVoto) {
+                        resultadosEleicao[j][3]++;
+                        break;
+                    }
+                }
+        }
+    }
+    return resultadosEleicao;
+}
+/**
+ * @description Ordena os candidatos mais votados de forma decrescente. Caso haja candidatos com a mesma quantidade de votos, os mesmos serão ordenados em ordem alfabética pelo nome.
+ * @param {*} resultadosEleicao Este parâmetro deve conter a matriz da apuração da urna com os votos já contabilizados.
+ */
+function ordenarCandidatosMaisVotados(resultadosEleicao) {
+    resultadosEleicao.sort(function (x, y) {
+        //Ordena pela quantidade de votos (maior -> menor)
+        if (x[3] > y[3]) {
+            return -1;
+        }
+        else if (x[3] < y[3]) {
+            return 1;
+        }
+        else {
+            //Ordena em ordem alfabética (A -> Z)
+            if (x[1] < y[1]) {
+                return -1;
+            }
+            else if (x[1] > y[1]) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
     });
 }
