@@ -17,7 +17,7 @@ app.listen(porta, async function () {
 
 app.get("/tipoDeVotacao", async function (request, response) {
     let resposta = await lerArquivo("config", ".csv", ",", "");
-    await guardarVoto("votos", ".csv", "oi", "")
+    await guardarRegistro("votos", ".csv", "oi", "")
     response.send(resposta);
 });
 
@@ -28,18 +28,18 @@ app.post("/voto", async function (request, response) {
     /* A variável data será implementada posteriormente caso sobre tempo hábil. */
     let data: Date = new Date();
     let voto = `${rg},${nome},${numeroCandidato},${data}\r\n`;
-    let resposta = await guardarVoto("votos", ".csv", voto);
+    let resposta = await guardarRegistro("votos", ".csv", voto);
     response.send(resposta);
 })
 
-async function guardarVoto(arquivo: string, extensao: string, voto: any, endereco?: string) {
+async function guardarRegistro(arquivo: string, extensao: string, voto: any, endereco?: string) {
     if (endereco == undefined) endereco = "";
     return new Promise(function (resolve, reject) {
         fs.appendFile(endereco + arquivo + extensao, voto, function (err) {
             if (err) {
                 reject({
                     "status": "500",
-                    "mensagem": err
+                    "mensagem": `Erro ao guardar registro no arquivo ${arquivo}: ${err}`
                 });
 
             } else {
