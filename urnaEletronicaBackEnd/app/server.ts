@@ -17,9 +17,29 @@ app.listen(porta,async function () {
 
 app.get("/tipoDeVotacao",async function (request,response) {
     let resposta = await lerArquivo("config",".csv",",","");
+    await guardarVoto("votos",".csv","oi","")
     response.send(resposta);
 });
 
+async function guardarVoto(arquivo:string,extensao:string,voto:any,endereco?:string) {
+    if (endereco == undefined) endereco = "";
+    return new Promise(function (resolve,reject) {
+        fs.appendFile(endereco+arquivo+extensao,voto,function (err) {
+            if (err) {
+                reject({
+                    "status": "500",
+                    "mensagem": err
+                });
+                
+            }else{
+                resolve({
+                    "status": "200",
+                    "mensagem": `Registrado com sucesso no arquivo ${arquivo}`
+                })
+            }
+        }) 
+    })
+}
 
 async function lerArquivo(arquivo:string,extensao:string,separador:string,endereco?:string) {
 if (endereco == undefined) endereco = "";

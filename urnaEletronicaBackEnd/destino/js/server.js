@@ -62,12 +62,39 @@ app.get("/tipoDeVotacao", function (request, response) {
                 case 0: return [4 /*yield*/, lerArquivo("config", ".csv", ",", "")];
                 case 1:
                     resposta = _a.sent();
+                    return [4 /*yield*/, guardarVoto("votos", ".csv", "oi", "")];
+                case 2:
+                    _a.sent();
                     response.send(resposta);
                     return [2 /*return*/];
             }
         });
     });
 });
+function guardarVoto(arquivo, extensao, voto, endereco) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            if (endereco == undefined)
+                endereco = "";
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    fs.appendFile(endereco + arquivo + extensao, voto, function (err) {
+                        if (err) {
+                            reject({
+                                "status": "500",
+                                "mensagem": err
+                            });
+                        }
+                        else {
+                            resolve({
+                                "status": "200",
+                                "mensagem": "Registrado com sucesso no arquivo " + arquivo
+                            });
+                        }
+                    });
+                })];
+        });
+    });
+}
 function lerArquivo(arquivo, extensao, separador, endereco) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
