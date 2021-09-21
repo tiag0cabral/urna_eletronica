@@ -71,6 +71,26 @@ app.get("/tipoDeVotacao", function (request, response) {
         });
     });
 });
+app.post("/voto", function (request, response) {
+    return __awaiter(this, void 0, void 0, function () {
+        var rg, nome, numeroCandidato, data, voto, resposta;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    rg = request.body.rg;
+                    nome = request.body.nome;
+                    numeroCandidato = request.body.numeroCandidato;
+                    data = new Date();
+                    voto = rg + "," + nome + "," + numeroCandidato + "," + data + "\r\n";
+                    return [4 /*yield*/, guardarVoto("votos", ".csv", voto)];
+                case 1:
+                    resposta = _a.sent();
+                    response.send(resposta);
+                    return [2 /*return*/];
+            }
+        });
+    });
+});
 function guardarVoto(arquivo, extensao, voto, endereco) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
