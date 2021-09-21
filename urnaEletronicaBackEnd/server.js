@@ -68,6 +68,20 @@ app.get("/candidatos", function (request, response) {
         });
     });
 });
+app.get("/votoIndefinido", function (request, response) {
+    return __awaiter(this, void 0, void 0, function () {
+        var indefinidos;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, lerArquivo("votoIndefinido", ".csv", ",", "")];
+                case 1:
+                    indefinidos = _a.sent();
+                    response.send(indefinidos);
+                    return [2 /*return*/];
+            }
+        });
+    });
+});
 app.get("/tipoDeVotacao", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
         var resposta;

@@ -20,6 +20,11 @@ app.get("/candidatos", async function (request, response) {
     response.send(candidatos);
 })
 
+app.get("/votoIndefinido", async function (request, response) {
+    let indefinidos = await lerArquivo("votoIndefinido", ".csv", ",", "");
+    response.send(indefinidos);
+})
+
 app.get("/tipoDeVotacao", async function (request, response) {
     let resposta = await lerArquivo("config", ".csv", ",", "");
     response.send(resposta);
