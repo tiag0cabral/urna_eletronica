@@ -2,8 +2,7 @@
   "compilerOptions": {
     
     "target": "es5",                                    
-    "outDir": "destino/js", 
     "noEmitOnError": true                         
-  }, 
-  "include": ["app/**/*"]
+  }
+  
 }

@@ -54,6 +54,20 @@ app.listen(porta, function () {
         });
     });
 });
+app.get("/candidatos", function (request, response) {
+    return __awaiter(this, void 0, void 0, function () {
+        var candidatos;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, lerArquivo("candidatos", ".csv", ",", "")];
+                case 1:
+                    candidatos = _a.sent();
+                    response.send(candidatos);
+                    return [2 /*return*/];
+            }
+        });
+    });
+});
 app.get("/tipoDeVotacao", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
         var resposta;
@@ -62,9 +76,6 @@ app.get("/tipoDeVotacao", function (request, response) {
                 case 0: return [4 /*yield*/, lerArquivo("config", ".csv", ",", "")];
                 case 1:
                     resposta = _a.sent();
-                    return [4 /*yield*/, guardarVoto("votos", ".csv", "oi", "")];
-                case 2:
-                    _a.sent();
                     response.send(resposta);
                     return [2 /*return*/];
             }
@@ -82,7 +93,7 @@ app.post("/voto", function (request, response) {
                     numeroCandidato = request.body.numeroCandidato;
                     data = new Date();
                     voto = rg + "," + nome + "," + numeroCandidato + "," + data + "\r\n";
-                    return [4 /*yield*/, guardarVoto("votos", ".csv", voto)];
+                    return [4 /*yield*/, guardarRegistro("votos", ".csv", voto)];
                 case 1:
                     resposta = _a.sent();
                     response.send(resposta);
@@ -91,7 +102,7 @@ app.post("/voto", function (request, response) {
         });
     });
 });
-function guardarVoto(arquivo, extensao, voto, endereco) {
+function guardarRegistro(arquivo, extensao, voto, endereco) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (endereco == undefined)
@@ -101,7 +112,7 @@ function guardarVoto(arquivo, extensao, voto, endereco) {
                         if (err) {
                             reject({
                                 "status": "500",
-                                "mensagem": err
+                                "mensagem": "Erro ao guardar registro no arquivo " + arquivo + ": " + err
                             });
                         }
                         else {

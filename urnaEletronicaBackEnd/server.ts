@@ -15,10 +15,16 @@ app.listen(porta, async function () {
     console.log(`Server rodando na porta ${porta}`);
 });
 
+app.get("/candidatos", async function (request, response) {
+    let candidatos = await lerArquivo("candidatos", ".csv", ",", "");
+    response.send(candidatos);
+})
+
 app.get("/tipoDeVotacao", async function (request, response) {
     let resposta = await lerArquivo("config", ".csv", ",", "");
     response.send(resposta);
 });
+
 
 app.post("/voto", async function (request, response) {
     let rg: string = request.body.rg;
@@ -68,3 +74,4 @@ async function lerArquivo(arquivo: string, extensao: string, separador: string, 
         })
     })
 }
+
