@@ -9,11 +9,14 @@ import { CandidatosService } from '../service/Candidatos.service';
 })
 export class UrnaEletronicaComponent implements OnInit {
 
+  listaDeCandidatos :any[] = [];
+
   constructor(private service :CandidatosService) { }
 
   ngOnInit() {
     this.service.getAllCandidatos().subscribe((candidatoServidor:Candidato[]) => {
-      console.table(candidatoServidor);
+      console.log(candidatoServidor);
+      this.listaDeCandidatos = candidatoServidor;
     });
   }
 

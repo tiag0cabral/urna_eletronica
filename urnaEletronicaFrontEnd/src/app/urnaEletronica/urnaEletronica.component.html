@@ -6,15 +6,9 @@
         <div class="row form-group">
           <div class="col-8 mx-auto">
             <label for="idNumeroCandidato" class="form-label my-3">Selecione seu Candidato: </label>
-            <input list="candidatos" id="idNumeroCandidato" type="number" placeholder="Informe o número" autofocus autocomplete="off" class="form-control" min="0">
-            <datalist id="candidatos">
-              <!--
-                <option value="15">Jurubeba</option>
-                <option value="22">Chiquinho do Pneu</option>
-                <option value="64">Teobaldo</option>
-                <option value="53">Maria Chiquinha</option>
-                <option value="30">Dilma Bolsonarista</option>
-              -->
+            <input list="candidatos" id="idNumeroCandidato"  placeholder="Informe o número" autofocus autocomplete="off" class="form-control" min="0" >
+            <datalist id="candidatos" >
+                <option *ngFor="let candidato of listaDeCandidatos" [value]="candidato[0]">{{candidato[1]}}</option>
             </datalist>
           </div>
         </div>
