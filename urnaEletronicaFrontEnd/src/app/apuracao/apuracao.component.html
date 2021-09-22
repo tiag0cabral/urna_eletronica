@@ -1,31 +1,33 @@
 <section>
-  <div>
-    <table id="idTableApuracao">
-      <caption>Lista dos candidatos mais votados
-      </caption>
-      <thead>
-        <tr id="idTrColuna">
-          <th scope="col">Colocação</th>
-          <th scope="col">Foto</th>
-          <th scope="col">Número</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Votos</th>
-        </tr>
-      </thead>
-      <tbody id="idTbodyTableBody">
-        <tr>
-          <td>----</td>
-          <td>----</td>
-          <td>----</td>
-          <td>----</td>
-          <td>----</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="5"></td>
-        </tr>
-      </tfoot>
-    </table>
+  <div class="container py-2">
+    <div class="table-responsive">
+      <table id="idTableApuracao" class="table table-light table-striped table-hover table-bordered border-secondary caption-top shadow-sm text-center align-middle">
+        <caption class="text-center text-white text-dark display-6">Lista dos candidatos mais votados
+        </caption>
+        <thead class="table-dark">
+          <tr id="idTrColuna">
+            <th scope="col">Colocação</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Número</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Votos</th>
+          </tr>
+        </thead>
+        <tbody id="idTbodyTableBody">
+          <tr>
+            <td>----</td>
+            <td>----</td>
+            <td>----</td>
+            <td>----</td>
+            <td><h2><span class="badge bg-secondary">----</span></h2></td>
+          </tr>
+        </tbody>
+        <tfoot class="table-dark">
+          <tr>
+            <td colspan="5">Total de votos : X</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 </section>

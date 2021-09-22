@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,7 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ApuracaoComponent } from './apuracao/apuracao.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
       UrnaEletronicaComponent,
       LoginComponent,
@@ -16,7 +17,8 @@ import { ApuracaoComponent } from './apuracao/apuracao.component';
    ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

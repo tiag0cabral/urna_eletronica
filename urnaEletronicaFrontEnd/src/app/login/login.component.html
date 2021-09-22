@@ -1,18 +1,36 @@
 <section>
-  <div>
-    <form action="">
-      <fieldset>
-        <legend>
-          Faça login para continuar
-        </legend>
-        <div>
-          <input type="email" placeholder="example@example.com" id="idInputEmail" name="nmInputEmail" autofocus autocomplete="on" required>
-        </div>
-        <div>
-          <input type="password" placeholder="Senha" id="idInputSenha" name="nmInputSenha" autocomplete="off" required>
-        </div>
-        <button type="submit" id="idBtnLogin" name="nmBtnLogin">Login</button>
-      </fieldset>
-    </form>
+  <div class="container w-25 p-3">
+    <div class="card border bg-dark bg-gradient text-white shadow-lg">
+      <form action="" method="POST" class="was-validated">
+        <fieldset>
+          <legend class="fs-2 text-center">
+            Login no Sistema
+          </legend>
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <div class="form-group py-2">
+                <input class="form-control is-invalid" type="email" placeholder="example@example.com" id="idInputEmail"
+                  name="nmInputEmail" autofocus autocomplete="on" required>
+                <div class="form-text">Informe seu usuário</div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <div class="form-group py-2">
+                <input class="form-control is-invalid" type="password" placeholder="Senha" id="idInputSenha"
+                  name="nmInputSenha" autocomplete="off" required>
+                <div class="form-text">Informe sua senha</div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center py-2">
+            <div class="col-auto">
+              <button class="btn btn-success bg-gradient" type="submit" id="idBtnLogin" name="nmBtnLogin">Login</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
   </div>
 </section>
