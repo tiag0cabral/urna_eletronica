@@ -5,7 +5,7 @@
         <legend>Urna Eletrônica</legend>
         <p>Selecione seu Candidato</p>
         <div>
-          <input list="candidatos" id="idCandidatos" placeholder="Informe o número">
+          <input list="candidatos" id="idNumeroCandidato" placeholder="Informe o número" autofocus autocomplete="off">
           <datalist id="candidatos">
             <!--
               <option value="15">Jurubeba</option>
@@ -18,15 +18,14 @@
         </div>
         <div>
           <figure>
-            <img src="#" alt="Foto do Candidato"
-              width="20%">
-            <figcaption>Nome(Nº: X)</figcaption>
+            <img src="#" alt="Foto do Candidato" width="20%" id="idImagemCandidato">
+            <figcaption id="idLegendaCandidato">Nome(Nº: X)</figcaption>
           </figure>
         </div>
         <div>
-          <button type="button">Branco</button>
-          <button type="reset">Corrige</button>
-          <button type="submit">Confirma</button>
+          <button id="idBtnBranco" name="nmBtnBranco" type="button">Branco</button>
+          <button id="idBtnCorrige" name="nmBtnCorrige" type="reset">Corrige</button>
+          <button id="idBtnConfirma" name="nmBtnConfirma" type="submit">Confirma</button>
         </div>
       </fieldset>
     </form>
