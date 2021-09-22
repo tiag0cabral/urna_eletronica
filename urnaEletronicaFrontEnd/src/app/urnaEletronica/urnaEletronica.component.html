@@ -1,3 +1,34 @@
-<p>
-  urnaEletronica works!
-</p>
+<section>
+  <div>
+    <form action="" method="POST">
+      <fieldset>
+        <legend>Urna Eletrônica</legend>
+        <p>Selecione seu Candidato</p>
+        <div>
+          <input list="candidatos" id="idCandidatos" placeholder="Informe o número">
+          <datalist id="candidatos">
+            <!--
+              <option value="15">Jurubeba</option>
+              <option value="22">Chiquinho do Pneu</option>
+              <option value="64">Teobaldo</option>
+              <option value="53">Maria Chiquinha</option>
+              <option value="30">Dilma Bolsonarista</option>
+            -->
+          </datalist>
+        </div>
+        <div>
+          <figure>
+            <img src="http://localhost:3001/img/votoIndefinido/candidato-nao-identificado.jpg" alt="Foto do Candidato"
+              width="20%">
+            <figcaption>Nome(Nº: X)</figcaption>
+          </figure>
+        </div>
+        <div>
+          <button type="button">Branco</button>
+          <button type="reset">Corrige</button>
+          <button type="submit">Confirma</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
