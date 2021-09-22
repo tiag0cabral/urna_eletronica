@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UrnaEletronicaComponent } from './urnaEletronica/urnaEletronica.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
-      UrnaEletronicaComponent
+      UrnaEletronicaComponent,
+      LoginComponent
    ],
   imports: [
     BrowserModule,
