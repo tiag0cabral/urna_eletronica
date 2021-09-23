@@ -40,6 +40,7 @@ var path = require("path");
 var fs = require("fs");
 var express = require("express");
 var cors = require("cors");
+var jwt = require("jsonwebtoken");
 var app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -123,7 +124,7 @@ app.get("/tipoDeVotacao", function (request, response) {
         });
     });
 });
-app.get("/apuracao", function (request, response) {
+app.get("/apuracao", verifica, function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
         var candidatos, apuracao, votos, apuracaoFormatado, i, informacoesCandidatoApuracao;
         return __generator(this, function (_a) {
@@ -177,6 +178,39 @@ app.post("/voto", function (request, response) {
         });
     });
 });
+var SECRET = "SohEuSei";
+app.post("/login", function (request, reponse) {
+    return __awaiter(this, void 0, void 0, function () {
+        var login, password, listaUsuarios, index, token;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    login = request.body.email;
+                    password = request.body.password;
+                    return [4 /*yield*/, (lerArquivo("usuarios", ".csv", ","))];
+                case 1:
+                    listaUsuarios = _a.sent();
+                    for (index = 0; index < listaUsuarios.length; index++) {
+                        if (login == listaUsuarios[index][0] && password == listaUsuarios[index][1]) {
+                            console.log(login + ", esta logado no sistema!");
+                            token = jwt.sign({ loginEsperado: login }, SECRET, { expiresIn: 300 });
+                            return [2 /*return*/, reponse.json({ auth: true, token: token })];
+                        }
+                    }
+                    return [2 /*return*/, reponse.json({ auth: false, message: "Usuario não autorizado" })];
+            }
+        });
+    });
+});
+function verifica(request, response, next) {
+    var token = request.header("x-access-token");
+    jwt.verify(token, SECRET, function (err, decoded) {
+        if (err) {
+            return response.status(401).end();
+        }
+        next();
+    });
+}
 function guardarRegistro(arquivo, extensao, voto, endereco) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

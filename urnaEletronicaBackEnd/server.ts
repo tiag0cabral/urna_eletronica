@@ -2,6 +2,7 @@ import path = require("path");
 import fs = require("fs");
 import express = require("express");
 import cors = require("cors");
+import * as jwt from "jsonwebtoken"
 
 
 const app = express();
@@ -68,7 +69,7 @@ app.get("/tipoDeVotacao", async function (request, response) {
     response.send(tipoVotacaoFormatado);
 });
 
-app.get("/apuracao", async function(request, response) {
+app.get("/apuracao",verifica,async function(request, response) {
    
     let candidatos = await (lerArquivo("candidatos", ".csv", ",", "")) as Array<any>;
     let apuracao: Array<any> = await (inicializarVetorApuracao(candidatos)) as Array<any>;
@@ -105,6 +106,34 @@ app.post("/voto", async function (request, response) {
     let resposta = await guardarRegistro("votos", ".csv", voto);
     response.send(resposta);
 })
+const SECRET = "SohEuSei"
+app.post("/login", async function (request,reponse) {
+    let  login: string = request.body.email;
+    let  password: string = request.body.password;
+
+     let listaUsuarios: string[] =   await (lerArquivo("usuarios",".csv",",")) as string[];
+
+     for (let index = 0; index < listaUsuarios.length; index++) {
+         if (login == listaUsuarios[index][0] && password == listaUsuarios[index][1] ) {
+            console.log(`${login}, esta logado no sistema!` );
+            const token = jwt.sign({loginEsperado: login},SECRET,{expiresIn: 300})
+            return reponse.json({auth: true, token});
+         }
+     }
+     return reponse.json({auth: false, message:"Usuario não autorizado"});
+   
+
+})
+
+function verifica(request, response, next) {
+    const token = request.header("x-access-token")
+    jwt.verify(token, SECRET, function (err, decoded) {
+        if (err) {
+            return response.status(401).end()
+        }
+        next()
+    })
+}
 
 async function guardarRegistro(arquivo: string, extensao: string, voto: any, endereco?: string) {
     if (endereco == undefined) endereco = "";
