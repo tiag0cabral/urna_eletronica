@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { UrnaEletronicaComponent } from './urnaEletronica/urnaEletronica.component';
 import { LoginComponent } from './login/login.component';
 import { ApuracaoComponent } from './apuracao/apuracao.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ApuracaoComponent } from './apuracao/apuracao.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

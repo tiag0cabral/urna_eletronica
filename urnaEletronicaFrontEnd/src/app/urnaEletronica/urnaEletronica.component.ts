@@ -1,3 +1,4 @@
+import { VotosService } from './../service/Votos.service';
 import { Candidato } from './../../../models/candidatos.models';
 import { Component, OnInit } from '@angular/core';
 import { CandidatosService } from '../service/Candidatos.service';
@@ -9,12 +10,47 @@ import { CandidatosService } from '../service/Candidatos.service';
 })
 export class UrnaEletronicaComponent implements OnInit {
 
-  listaDeCandidatos :any[] = [];
+  rg: string = "";
+  nome: string = "";
+  numeroCandidato: number | undefined;
 
-  constructor(private service :CandidatosService) { }
+  listaDeCandidatos: any[] = [];
+
+  constructor(private serviceCandidatos: CandidatosService, private serviceVoto: VotosService) { }
+
+  public votar() {
+
+    let isValidVote: boolean = false;
+    let indexCandidato: number = -1;
+    for (let i = 0; i < this.listaDeCandidatos.length; i++) {
+      if (this.numeroCandidato == this.listaDeCandidatos[i].numero) {
+       indexCandidato = i;
+       isValidVote = true;
+       break;
+      }
+    }
+
+    if(isValidVote) {
+      this.nome = this.listaDeCandidatos[indexCandidato].nome
+    }
+
+    const voto = {
+      rg: this.rg,
+      nome: this.nome,
+      numeroCandidato: this.numeroCandidato
+    }
+    this.serviceVoto.adicionarVoto(voto).subscribe(
+      (resultado) => {
+        console.log(resultado);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
   ngOnInit() {
-    this.service.getAllCandidatos().subscribe((candidatoServidor:Candidato[]) => {
+    this.serviceCandidatos.getAllCandidatos().subscribe((candidatoServidor: Candidato[]) => {
       console.log(candidatoServidor);
       this.listaDeCandidatos = candidatoServidor;
     });

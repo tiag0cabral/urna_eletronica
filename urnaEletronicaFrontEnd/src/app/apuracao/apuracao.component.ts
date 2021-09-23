@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Apuracao } from 'models/apuracao.models';
+import { ApuracaoService } from '../service/Apuracao.service';
 
 @Component({
   selector: 'app-apuracao',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApuracaoComponent implements OnInit {
 
-  constructor() { }
+  listaApuracao: any[] = [];
+  totalVotos: number = 0;
+
+  constructor(private serviceApuracao: ApuracaoService) { }
 
   ngOnInit() {
+    this.serviceApuracao.getAllApuracao().subscribe((apuracaoServidor: Apuracao[]) => {
+      console.log(apuracaoServidor);
+      this.listaApuracao = apuracaoServidor;
+     for (let i = 0; i < this.listaApuracao.length; i++) {
+          this.totalVotos += this.listaApuracao[i].votos;
+      }
+    });
   }
 
 }
