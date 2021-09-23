@@ -56,13 +56,24 @@ app.listen(porta, function () {
 });
 app.get("/candidatos", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
-        var candidatos;
+        var candidatos, candidatosFormatado, i, informacoesCandidato;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, lerArquivo("candidatos", ".csv", ",", "")];
+                case 0: return [4 /*yield*/, (lerArquivo("candidatos", ".csv", ",", ""))];
                 case 1:
                     candidatos = _a.sent();
-                    response.send(candidatos);
+                    candidatosFormatado = [];
+                    for (i = 0; i < candidatos.length; i++) {
+                        informacoesCandidato = {
+                            numero: (Number(candidatos[i][0])),
+                            nome: (candidatos[i][1]),
+                            urlImagem: (candidatos[i][2])
+                        };
+                        candidatosFormatado.push(informacoesCandidato);
+                    }
+                    console.log("\n\t\tRegistros passados pela requisi\u00E7\u00E3o do endpoint \"/candidatos\":");
+                    console.table(candidatosFormatado);
+                    response.send(candidatosFormatado);
                     return [2 /*return*/];
             }
         });
@@ -70,13 +81,22 @@ app.get("/candidatos", function (request, response) {
 });
 app.get("/votoIndefinido", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
-        var indefinidos;
+        var indefinidos, indefinidosFormatado, imgsIndefinidas;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, lerArquivo("votoIndefinido", ".csv", ",", "")];
+                case 0: return [4 /*yield*/, (lerArquivo("votoIndefinido", ".csv", ",", ""))];
                 case 1:
                     indefinidos = _a.sent();
-                    response.send(indefinidos);
+                    indefinidosFormatado = [];
+                    imgsIndefinidas = {
+                        urlImgCandNaoIdentificado: (indefinidos[0][0]),
+                        urlImgVotoBranco: (indefinidos[1][0]),
+                        urlImgVotoNulo: (indefinidos[2][0])
+                    };
+                    indefinidosFormatado.push(imgsIndefinidas);
+                    console.log("\n\t\t\t\t\t\t\t\t\tRegistros passados pela requisi\u00E7\u00E3o do endpoint \"/votoIndefinido\":");
+                    console.table(indefinidosFormatado);
+                    response.send(indefinidosFormatado);
                     return [2 /*return*/];
             }
         });
@@ -84,13 +104,20 @@ app.get("/votoIndefinido", function (request, response) {
 });
 app.get("/tipoDeVotacao", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
-        var resposta;
+        var tipoVotacao, tipoVotacaoFormatado, tipo;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, lerArquivo("config", ".csv", ",", "")];
                 case 1:
-                    resposta = _a.sent();
-                    response.send(resposta);
+                    tipoVotacao = _a.sent();
+                    tipoVotacaoFormatado = [];
+                    tipo = {
+                        tipoVotacao: (tipoVotacao[0][0])
+                    };
+                    tipoVotacaoFormatado.push(tipo);
+                    console.log("\nRegistros passados pela requisi\u00E7\u00E3o do endpoint \"/tipoDeVotacao\":");
+                    console.table(tipoVotacaoFormatado);
+                    response.send(tipoVotacaoFormatado);
                     return [2 /*return*/];
             }
         });
@@ -98,13 +125,13 @@ app.get("/tipoDeVotacao", function (request, response) {
 });
 app.get("/apuracao", function (request, response) {
     return __awaiter(this, void 0, void 0, function () {
-        var candidatos, apuracao, votos;
+        var candidatos, apuracao, votos, apuracaoFormatado, i, informacoesCandidatoApuracao;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, lerArquivo("candidatos", ".csv", ",", "")];
+                case 0: return [4 /*yield*/, (lerArquivo("candidatos", ".csv", ",", ""))];
                 case 1:
                     candidatos = _a.sent();
-                    return [4 /*yield*/, inicializarVetorApuracao(candidatos)];
+                    return [4 /*yield*/, (inicializarVetorApuracao(candidatos))];
                 case 2:
                     apuracao = _a.sent();
                     return [4 /*yield*/, (lerArquivo("votos", ".csv", ",", ""))];
@@ -112,8 +139,19 @@ app.get("/apuracao", function (request, response) {
                     votos = _a.sent();
                     apuracao = obterSomatorioVotos(apuracao, votos);
                     ordenarCandidatosMaisVotados(apuracao);
-                    console.log(apuracao);
-                    response.send(apuracao);
+                    apuracaoFormatado = [];
+                    for (i = 0; i < apuracao.length; i++) {
+                        informacoesCandidatoApuracao = {
+                            numero: (apuracao[i][0]),
+                            nome: (apuracao[i][1]),
+                            urlImagem: (apuracao[i][2]),
+                            votos: (apuracao[i][3])
+                        };
+                        apuracaoFormatado.push(informacoesCandidatoApuracao);
+                    }
+                    console.log("\n\t\t\tRegistros passados pela requisi\u00E7\u00E3o do endpoint \"/apuracao\":");
+                    console.table(apuracaoFormatado);
+                    response.send(apuracaoFormatado);
                     return [2 /*return*/];
             }
         });
