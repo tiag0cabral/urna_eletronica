@@ -16,7 +16,7 @@
         <tbody id="idTbodyTableBody" *ngIf="listaApuracao.length > 0; else listaVazia">
           <tr *ngFor="let apuracao of listaApuracao; let i = index">
             <td>{{i+1}}</td>
-            <td>{{apuracao.urlImagem}}</td>
+            <td width="10%"><img [src]="apuracao.urlImagem" alt="Imagem do candidato" class="img-fluid img-thumbnail rounded mx-auto d-block"></td>
             <td>{{apuracao.numero}}</td>
             <td>{{apuracao.nome}}</td>
             <td><h2><span class="badge bg-secondary">{{apuracao.votos}}</span></h2></td>
