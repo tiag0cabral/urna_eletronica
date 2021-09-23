@@ -8,7 +8,7 @@
             <label for="idNumeroCandidato" class="form-label my-3">Selecione seu Candidato: </label>
             <input list="candidatos" id="idNumeroCandidato"  placeholder="Informe o número" autofocus autocomplete="off" class="form-control" min="0" >
             <datalist id="candidatos" >
-                <option *ngFor="let candidato of listaDeCandidatos" [value]="candidato[0]">{{candidato[1]}}</option>
+                <option *ngFor="let candidato of listaDeCandidatos" [value]="candidato.numero">{{candidato.nome}}</option>
             </datalist>
           </div>
         </div>
