@@ -2,6 +2,7 @@ import path = require("path");
 import fs = require("fs");
 import express = require("express");
 import cors = require("cors");
+import * as jwt from "jsonwebtoken"
 
 
 const app = express();
@@ -16,33 +17,83 @@ app.listen(porta, async function () {
 });
 
 app.get("/candidatos", async function (request, response) {
-    let candidatos = await lerArquivo("candidatos", ".csv", ",", "");
-    response.send(candidatos);
+    let candidatos: Array<any> = await (lerArquivo("candidatos", ".csv", ",", "")) as Array<any>;
+    
+    let candidatosFormatado: Array<any> = [];
+    for (let i = 0; i < candidatos.length; i++) {
+        let informacoesCandidato: object = {
+            numero: (Number(candidatos[i][0])) as number,
+            nome: (candidatos[i][1]) as string,
+            urlImagem: (candidatos[i][2]) as string
+        }
+        candidatosFormatado.push(informacoesCandidato);
+    }
+
+    console.log(`\n\t\tRegistros passados pela requisição do endpoint "/candidatos":`);
+    console.table(candidatosFormatado);
+
+    response.send(candidatosFormatado);
 })
 
 app.get("/votoIndefinido", async function (request, response) {
-    let indefinidos = await lerArquivo("votoIndefinido", ".csv", ",", "");
-    response.send(indefinidos);
+    let indefinidos = await (lerArquivo("votoIndefinido", ".csv", ",", "")) as Array<any>;
+    
+    let indefinidosFormatado: Array<any> = [];
+   
+        let imgsIndefinidas: object = {
+            urlImgCandNaoIdentificado: (indefinidos[0][0]) as string,
+            urlImgVotoBranco: (indefinidos[1][0]) as string,
+            urlImgVotoNulo: (indefinidos[2][0]) as string
+        }
+        
+    indefinidosFormatado.push(imgsIndefinidas);
+
+    console.log(`\n\t\t\t\t\t\t\t\t\tRegistros passados pela requisição do endpoint "/votoIndefinido":`);
+    console.table(indefinidosFormatado);
+    
+    response.send(indefinidosFormatado);
 })
 
 app.get("/tipoDeVotacao", async function (request, response) {
-    let resposta = await lerArquivo("config", ".csv", ",", "");
-    response.send(resposta);
+    let tipoVotacao = await lerArquivo("config", ".csv", ",", "");
+
+    let tipoVotacaoFormatado: Array<any> = [];
+    let tipo: object = {
+        tipoVotacao: (tipoVotacao[0][0]) as string
+    }
+    tipoVotacaoFormatado.push(tipo);
+
+    console.log(`\nRegistros passados pela requisição do endpoint "/tipoDeVotacao":`);
+    console.table(tipoVotacaoFormatado);
+
+    response.send(tipoVotacaoFormatado);
 });
 
-app.get("/apuracao", async function(request, response) {
+app.get("/apuracao",verifica,async function(request, response) {
    
-    let candidatos = await lerArquivo("candidatos", ".csv", ",", "");
-    let apuracao: Array<any> = await inicializarVetorApuracao(candidatos);
+    let candidatos = await (lerArquivo("candidatos", ".csv", ",", "")) as Array<any>;
+    let apuracao: Array<any> = await (inicializarVetorApuracao(candidatos)) as Array<any>;
     let votos = await (lerArquivo("votos", ".csv", ",", "")) as Array<any>;
 
     apuracao = obterSomatorioVotos(apuracao, votos);
     
     ordenarCandidatosMaisVotados(apuracao);
     
-    console.log(apuracao);
+    let apuracaoFormatado: Array<any> = [];
+    for (let i = 0; i < apuracao.length; i++) {
+        let informacoesCandidatoApuracao: object = {
+            numero: (apuracao[i][0]) as number|string,
+            nome: (apuracao[i][1]) as string,
+            urlImagem: (apuracao[i][2]) as string,
+            votos: (apuracao[i][3]) as number
+        }
+        apuracaoFormatado.push(informacoesCandidatoApuracao);
+    }
 
-    response.send(apuracao);
+    console.log(`\n\t\t\tRegistros passados pela requisição do endpoint "/apuracao":`);
+    console.table(apuracaoFormatado);
+
+    response.send(apuracaoFormatado);
 });
 
 app.post("/voto", async function (request, response) {
@@ -55,6 +106,34 @@ app.post("/voto", async function (request, response) {
     let resposta = await guardarRegistro("votos", ".csv", voto);
     response.send(resposta);
 })
+const SECRET = "SohEuSei"
+app.post("/login", async function (request,reponse) {
+    let  login: string = request.body.email;
+    let  password: string = request.body.password;
+
+     let listaUsuarios: string[] =   await (lerArquivo("usuarios",".csv",",")) as string[];
+
+     for (let index = 0; index < listaUsuarios.length; index++) {
+         if (login == listaUsuarios[index][0] && password == listaUsuarios[index][1] ) {
+            console.log(`${login}, esta logado no sistema!` );
+            const token = jwt.sign({loginEsperado: login},SECRET,{expiresIn: 300})
+            return reponse.json({auth: true, token});
+         }
+     }
+     return reponse.json({auth: false, message:"Usuario não autorizado"});
+   
+
+})
+
+function verifica(request, response, next) {
+    const token = request.header("x-access-token")
+    jwt.verify(token, SECRET, function (err, decoded) {
+        if (err) {
+            return response.status(401).end()
+        }
+        next()
+    })
+}
 
 async function guardarRegistro(arquivo: string, extensao: string, voto: any, endereco?: string) {
     if (endereco == undefined) endereco = "";
