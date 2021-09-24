@@ -8,7 +8,7 @@
             <label for="idNumeroCandidato" class="form-label my-3">Selecione seu Candidato: </label>
             <input list="candidatos" id="idNumeroCandidato" placeholder="Informe o número" autofocus
               autocomplete="off" class="form-control" min="0" [(ngModel)]="numeroCandidato"
-              [ngModelOptions]="{standalone: true}">
+              [ngModelOptions]="{standalone: true}" app-urnaEletronica>
             <datalist id="candidatos">
               <option *ngFor="let candidato of listaDeCandidatos" [value]="candidato.numero">{{candidato.nome}}</option>
             </datalist>
@@ -18,9 +18,9 @@
           <div class="row justify-content-center">
             <div class="col-auto py-4">
               <figure>
-                <img src="#" class="rounded mx-auto d-block img-thumbnail" alt="Foto do Candidato" width="20%"
+                <img [src]="imgCandidatoAtual" class="rounded mx-auto d-block img-thumbnail" alt="Foto do Candidato" width="35%"
                   id="idImagemCandidato">
-                <figcaption id="idLegendaCandidato" class="text-center">Nome(Nº: X)</figcaption>
+                <figcaption id="idLegendaCandidato" class="text-center">{{nomeCandidatoAtual}} (Nº: {{numeroCandidatoAtual}})</figcaption>
               </figure>
             </div>
           </div>
