@@ -11,7 +11,8 @@ export class ApuracaoService {
 
   constructor(private httpclient: HttpClient) {}
 
-  public getAllApuracao(): Observable<Apuracao[]> {
-    return this.httpclient.get<Apuracao[]>(this.url);
+  public getAllApuracao(token:string): Observable<Apuracao[]> {
+    const headers = { "x-access-token": token};
+    return this.httpclient.get<Apuracao[]>(this.url,{headers});
   }
 }

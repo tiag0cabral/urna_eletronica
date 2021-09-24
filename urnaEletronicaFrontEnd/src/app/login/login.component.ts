@@ -17,20 +17,19 @@ export class LoginComponent {
   }
 
   public login(){
-    console.log("Logou");
-
-    const informacoesDeAcesso = {
+ const informacoesDeAcesso = {
       email: this.email,
       password: this.senha
     }
 
     this.serviceLogin.enviarLogin(informacoesDeAcesso).subscribe(
-      resultado => {
-        console.log(resultado);
+      aut => {
+        localStorage.setItem("token", aut.token)
     },
     error => {
       console.error(error);
     })
+
 
   }
 

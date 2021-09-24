@@ -15,13 +15,15 @@ export class ApuracaoComponent implements OnInit {
   constructor(private serviceApuracao: ApuracaoService) { }
 
   ngOnInit() {
-    this.serviceApuracao.getAllApuracao().subscribe((apuracaoServidor: Apuracao[]) => {
+    var token:string  = (localStorage.getItem("token")) as string
+    this.serviceApuracao.getAllApuracao(token).subscribe((apuracaoServidor: Apuracao[]) => {
       console.log(apuracaoServidor);
       this.listaApuracao = apuracaoServidor;
      for (let i = 0; i < this.listaApuracao.length; i++) {
           this.totalVotos += this.listaApuracao[i].votos;
       }
     });
+
   }
 
 }

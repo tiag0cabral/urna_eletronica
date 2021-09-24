@@ -1,6 +1,6 @@
 import { VotosService } from './../service/Votos.service';
 import { Candidato } from './../../../models/candidatos.models';
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { CandidatosService } from '../service/Candidatos.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { CandidatosService } from '../service/Candidatos.service';
   templateUrl: './urnaEletronica.component.html',
   styleUrls: ['./urnaEletronica.component.scss']
 })
-export class UrnaEletronicaComponent implements OnInit, AfterViewInit {
+export class UrnaEletronicaComponent implements OnInit {
 
   imgCandidatoAtual: string = "";
   nomeCandidatoAtual: string = "";
@@ -31,10 +31,6 @@ export class UrnaEletronicaComponent implements OnInit, AfterViewInit {
       console.log(candidatoServidor);
       this.listaDeCandidatos = candidatoServidor;
     });
-  }
-
-  ngAfterViewInit(){
-
   }
 
   @HostListener("input", ["$event.target.value"]) onInput(numeroCand: number | string): void {

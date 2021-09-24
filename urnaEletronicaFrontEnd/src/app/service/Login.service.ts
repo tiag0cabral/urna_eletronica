@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Autenticacao } from 'models/autenticacao.models';
 import { Login } from 'models/login.models';
 import { Observable } from 'rxjs';
 
@@ -12,8 +13,9 @@ export class LoginService {
 
  constructor(private httpClient: HttpClient) { }
 
- public enviarLogin(informacoesDeAcesso: any): Observable<Login> {
-  return this.httpClient.post<Login>(this._url, informacoesDeAcesso);
+ public enviarLogin(informacoesDeAcesso: any): Observable<Autenticacao> {
+  return this.httpClient.post<Autenticacao>(this._url, informacoesDeAcesso);
  }
+
 
 }
