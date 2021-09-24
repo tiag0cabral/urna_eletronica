@@ -1,7 +1,9 @@
+import { TipoVotacao } from 'models/tipoVotacao.models';
 import { VotosService } from './../service/Votos.service';
 import { Candidato } from './../../../models/candidatos.models';
 import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { CandidatosService } from '../service/Candidatos.service';
+import { TipoVotacaoService } from '../service/TipoVotacao.service';
 
 @Component({
   selector: 'app-urnaEletronica',
@@ -21,9 +23,17 @@ export class UrnaEletronicaComponent implements OnInit {
 
   listaDeCandidatos: any[] = [];
 
-  constructor(private serviceCandidatos: CandidatosService, private serviceVoto: VotosService, private element: ElementRef, private render: Renderer2) { }
+  listaTipoVotacao: any[] = [];
+
+  constructor(private serviceCandidatos: CandidatosService, private serviceVoto: VotosService, private serviceTipoVotacao: TipoVotacaoService, private element: ElementRef, private render: Renderer2) { }
 
   ngOnInit() {
+
+    this.serviceTipoVotacao.getTipoVotacao().subscribe((tipoVotacaoServidor: TipoVotacao[]) =>{
+      console.log(tipoVotacaoServidor);
+      this.listaTipoVotacao = tipoVotacaoServidor;
+
+    });
 
     this.obterInformacoesCandNaoIdentificado();
 
