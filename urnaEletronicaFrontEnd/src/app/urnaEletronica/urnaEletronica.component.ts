@@ -130,10 +130,6 @@ export class UrnaEletronicaComponent implements OnInit {
     }
   }
 
-  private setTextColor(color: string) {
-    this.render.setStyle(this.element.nativeElement, "background-color", color);
-  }
-
 private obterInformacoesCandNaoIdentificado(): void {
   this.imgCandidatoAtual = "http://localhost:3001/img/votoIndefinido/candidato-nao-identificado.jpg";
   this.nomeCandidatoAtual = "Candidato(a) não identificado(a)";
