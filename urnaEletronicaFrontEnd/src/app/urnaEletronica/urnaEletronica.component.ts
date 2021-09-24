@@ -122,4 +122,8 @@ private obterInformacoesCandNaoIdentificado(): void {
   this.numeroCandidatoAtual = "----";
 }
 
+public corrige() {
+  this.obterInformacoesCandNaoIdentificado();
+}
+
 }
