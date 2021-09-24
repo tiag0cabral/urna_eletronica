@@ -22,11 +22,13 @@ export class UrnaEletronicaComponent implements OnInit {
   // Informações do voto
   rg: string = "";
   nome: string = "";
-  numeroCandidato: number | undefined;
+  numeroCandidato: number | string | undefined;
 
   listaDeCandidatos: any[] = [];
 
   listaTipoVotacao: any[] = [];
+
+  ehVotoBranco: boolean = false;
 
   constructor(private serviceCandidatos: CandidatosService, private serviceVoto: VotosService, private serviceTipoVotacao: TipoVotacaoService, private element: ElementRef, private render: Renderer2) {}
 
@@ -63,33 +65,49 @@ export class UrnaEletronicaComponent implements OnInit {
 
   public votar() {
 
-    let isValidVote: boolean = false;
+    if (this.listaTipoVotacao[0].tipoVotacao == "naoanonimo" && this.rg == "") {
+      alert("Preencha o campo do RG");
+      return;
+    }
+
+    let ehVotoValido: boolean = false;
     let indexCandidato: number = -1;
+
+    if (!this.ehVotoBranco) {
     for (let i = 0; i < this.listaDeCandidatos.length; i++) {
       if (this.numeroCandidato == this.listaDeCandidatos[i].numero) {
        indexCandidato = i;
-       isValidVote = true;
+       ehVotoValido = true;
        break;
       }
-    }
 
-    if(isValidVote) {
-      this.nome = this.listaDeCandidatos[indexCandidato].nome
     }
+    if(ehVotoValido) {
+      this.nome = this.listaDeCandidatos[indexCandidato].nome
+    }else{
+      this.numeroCandidato = "N-U-L-O"
+    }
+  }else{
+    this.numeroCandidato = "B-R-A-N-C-O"
+  }
 
     const voto = {
       rg: this.rg,
       nome: this.nome,
       numeroCandidato: this.numeroCandidato
     }
+
     this.serviceVoto.adicionarVoto(voto).subscribe(
       (resultado) => {
         console.log(resultado);
+        alert("Voto enviado com sucesso!");
       },
       (error) => {
         console.error(error);
+        alert("Voto não enviado!");
       }
     );
+    this.limparTela();
   }
 
   private modificarComportamentoTagsRg(tipoVotacao: string): void {
@@ -124,6 +142,18 @@ private obterInformacoesCandNaoIdentificado(): void {
 
 public corrige() {
   this.obterInformacoesCandNaoIdentificado();
+}
+
+public branco(){
+  this.ehVotoBranco = true;
+  this.votar();
+}
+
+private limparTela(){
+  this.rg = "";
+  this.numeroCandidato = "";
+  this.obterInformacoesCandNaoIdentificado();
+
 }
 
 }
