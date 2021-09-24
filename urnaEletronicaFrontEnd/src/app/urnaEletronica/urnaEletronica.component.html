@@ -1,14 +1,19 @@
 <section>
   <div class="container w-50 p-3 text-white">
-    <form action="" method="POST" (ngSubmit)="votar()">
+    <form action="" method="POST" class="needs-validation" (ngSubmit)="votar()">
       <fieldset>
         <legend class="text-center display-6">Urna Eletrônica</legend>
         <div class="row form-group">
           <div class="col-8 mx-auto">
+            <div #tagsRg>
+              <label for="idRg" class="form-label my-3">RG: </label>
+              <input #inputRg [(ngModel)]="rg" type="text" id="idRg" name="nmRg" class="form-control" placeholder="Informe o RG" autocomplete="off">
+            </div>
+
             <label for="idNumeroCandidato" class="form-label my-3">Selecione seu Candidato: </label>
-            <input list="candidatos" id="idNumeroCandidato" placeholder="Informe o número" autofocus
+            <input list="candidatos" id="idNumeroCandidato" name="nmNumeroCandidato" placeholder="Informe o número" autofocus
               autocomplete="off" class="form-control" min="0" [(ngModel)]="numeroCandidato"
-              [ngModelOptions]="{standalone: true}">
+              [ngModelOptions]="{standalone: true}" (input)="exibirCandidato($event)">
             <datalist id="candidatos">
               <option *ngFor="let candidato of listaDeCandidatos" [value]="candidato.numero">{{candidato.nome}}</option>
             </datalist>
@@ -18,9 +23,9 @@
           <div class="row justify-content-center">
             <div class="col-auto py-4">
               <figure>
-                <img src="#" class="rounded mx-auto d-block img-thumbnail" alt="Foto do Candidato" width="20%"
+                <img [src]="imgCandidatoAtual" class="rounded mx-auto d-block img-thumbnail" alt="Foto do Candidato" width="35%"
                   id="idImagemCandidato">
-                <figcaption id="idLegendaCandidato" class="text-center">Nome(Nº: X)</figcaption>
+                <figcaption id="idLegendaCandidato" class="text-center">{{nomeCandidatoAtual}} (Nº: {{numeroCandidatoAtual}})</figcaption>
               </figure>
             </div>
           </div>
@@ -30,10 +35,10 @@
           <div class="row justify-content-center">
             <div class="col-auto">
               <button id="idBtnBranco" name="nmBtnBranco" type="button"
-                class="btn btn-light border btn-lg">Branco</button>
+                class="btn btn-light border btn-lg" (click)="branco()">Branco</button>
             </div>
             <div class="col-auto">
-              <button id="idBtnCorrige" name="nmBtnCorrige" type="reset" class="btn btn-danger btn-lg">Corrige</button>
+              <button id="idBtnCorrige" name="nmBtnCorrige" type="reset" class="btn btn-danger btn-lg" (click)="corrige()">Corrige</button>
             </div>
             <div class="col-auto ">
               <button id="idBtnConfirma" name="nmBtnConfirma" type="submit"
