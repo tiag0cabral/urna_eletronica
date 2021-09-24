@@ -1,7 +1,7 @@
 import { TipoVotacao } from 'models/tipoVotacao.models';
 import { VotosService } from './../service/Votos.service';
 import { Candidato } from './../../../models/candidatos.models';
-import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { CandidatosService } from '../service/Candidatos.service';
 import { TipoVotacaoService } from '../service/TipoVotacao.service';
 
@@ -11,6 +11,9 @@ import { TipoVotacaoService } from '../service/TipoVotacao.service';
   styleUrls: ['./urnaEletronica.component.scss']
 })
 export class UrnaEletronicaComponent implements OnInit {
+
+  @ViewChild('tagsRg', {static: false}) tagsRg!: ElementRef;
+  @ViewChild('inputRg', {static: false}) inputRg!: ElementRef;
 
   imgCandidatoAtual: string = "";
   nomeCandidatoAtual: string = "";
@@ -25,14 +28,14 @@ export class UrnaEletronicaComponent implements OnInit {
 
   listaTipoVotacao: any[] = [];
 
-  constructor(private serviceCandidatos: CandidatosService, private serviceVoto: VotosService, private serviceTipoVotacao: TipoVotacaoService, private element: ElementRef, private render: Renderer2) { }
+  constructor(private serviceCandidatos: CandidatosService, private serviceVoto: VotosService, private serviceTipoVotacao: TipoVotacaoService, private element: ElementRef, private render: Renderer2) {}
 
   ngOnInit() {
 
     this.serviceTipoVotacao.getTipoVotacao().subscribe((tipoVotacaoServidor: TipoVotacao[]) =>{
       console.log(tipoVotacaoServidor);
       this.listaTipoVotacao = tipoVotacaoServidor;
-
+      this.modificarComportamentoTagsRg(this.listaTipoVotacao[0].tipoVotacao);
     });
 
     this.obterInformacoesCandNaoIdentificado();
@@ -43,7 +46,8 @@ export class UrnaEletronicaComponent implements OnInit {
     });
   }
 
-  @HostListener("input", ["$event.target.value"]) onInput(numeroCand: number | string): void {
+   public exibirCandidato(event: any){
+    let numeroCand: string =  event.target.value;
 
     let find: any = this.listaDeCandidatos.find(candidato => candidato.numero == numeroCand);
 
@@ -86,6 +90,26 @@ export class UrnaEletronicaComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+
+  private modificarComportamentoTagsRg(tipoVotacao: string): void {
+    switch (tipoVotacao) {
+      case "anonimo":
+        this.render.addClass(this.tagsRg.nativeElement, "visually-hidden");
+        this.render.addClass(this.inputRg.nativeElement, "disabled");
+        this.render.setAttribute(this.inputRg.nativeElement, "required", "false");
+        break;
+      case "naoanonimo":
+        this.render.removeClass(this.tagsRg.nativeElement, "visually-hidden");
+        this.render.removeClass(this.inputRg.nativeElement, "disabled");
+        this.render.setAttribute(this.inputRg.nativeElement, "required", "true");
+        break;
+      default:
+        this.render.addClass(this.tagsRg.nativeElement, "visually-hidden");
+        this.render.addClass(this.inputRg.nativeElement, "disabled");
+        this.render.setAttribute(this.inputRg.nativeElement, "required", "false");
+        break;
+    }
   }
 
   private setTextColor(color: string) {
