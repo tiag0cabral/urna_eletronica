@@ -65,7 +65,12 @@ export class UrnaEletronicaComponent implements OnInit {
 
   public votar() {
 
-    if (this.listaTipoVotacao[0].tipoVotacao == "naoanonimo" && this.rg == "") {
+    if(this.listaTipoVotacao[0].tipoVotacao == "anonimo") {
+      this.rg = "";
+    }
+
+    if (this.listaTipoVotacao[0].tipoVotacao == "naoanonimo" && (this.rg == null || this.rg == "")) {
+      this.ehVotoBranco = false;
       alert("Preencha o campo do RG");
       return;
     }
@@ -86,6 +91,7 @@ export class UrnaEletronicaComponent implements OnInit {
       this.nome = this.listaDeCandidatos[indexCandidato].nome
     }else{
       this.numeroCandidato = "N-U-L-O"
+      this.nome = "";
     }
   }else{
     this.numeroCandidato = "B-R-A-N-C-O"
@@ -138,10 +144,15 @@ private obterInformacoesCandNaoIdentificado(): void {
 
 public corrige() {
   this.obterInformacoesCandNaoIdentificado();
+  this.nome = "";
+  this.rg = "";
+  this.numeroCandidato = undefined;
 }
 
 public branco(){
   this.ehVotoBranco = true;
+  this.nome = "";
+  this.numeroCandidato = undefined;
   this.votar();
 }
 
@@ -149,7 +160,7 @@ private limparTela(){
   this.rg = "";
   this.numeroCandidato = "";
   this.obterInformacoesCandNaoIdentificado();
-
+  this.ehVotoBranco = false;
 }
 
 }
