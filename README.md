@@ -11,7 +11,7 @@ console.log("Welcome to our project!");
 
 ### Pensando não só votação presidencial ou similares, a ideia da criação desta urna eletrônica foi abordar qualquer outro tipo de votação, como por exemplo, alguma candidatura para síndico de condomínio, ou até mesmo para uma simples votação entre um grupo de amigos.
 
-\
+
 &nbsp;
 
 ## Tecnologias utilizadas
@@ -31,7 +31,7 @@ Com o intuito de desenvolver uma aplicação WEB, utilizamos as seguintes tecnol
 
 Caso tenha dificuldades em entender alguma(s) da(s) tecnologia(s) apresentadas acima, sugerimos que você acesse os links da tabela para um maior entendimento.  
 
-\
+
 &nbsp;
 
 ## 🔵 O que já foi desenvolvido até o momento? 
@@ -40,7 +40,7 @@ Caso tenha dificuldades em entender alguma(s) da(s) tecnologia(s) apresentadas a
 - Tela de login *funcional* para acesso aos dados da apuração da votação; ✔️
 - Tela da apuração *funcional* que exibe o resultado da votação (apenas disponível com autenticação de usuário). ✔️
 
-\
+
 &nbsp;
 
 ##  🔵 Como instalar os projetos localmente
@@ -59,7 +59,7 @@ git clone https://bitbucket.org/proway-turma-b-grupo-5/urna_eletronica.git
 npm install -g @angular/cli
 ```
 
-\
+
 &nbsp;
 
 > 🔸 `Configurando o projeto Back-End:`
@@ -88,7 +88,7 @@ npm run compile server.ts
 node server.js
 ```
 
-\
+
 &nbsp;
 
 > 🔸 `Configurando o projeto Front-End:`
@@ -116,14 +116,14 @@ ng serve -o
 
 **Pronto! Tudo feito. Tenha uma boa votação!** 😃 
 
-\
+
 &nbsp;
 
 ## 🔵 Agradecimentos
 
 Agradecemos primeiramente a [Capgemini][CaPgEmInI] pela oportunidade e confiança para que nós pudéssemos crescer ao longo do curso. Agradecemos também a toda equipe da [ProWay][PrOwAy] pelo excelente suporte e recepção desde o começo do curso. Especialmente ao nosso facilitador [Ivan J. Borchardt][IvAn] por todos os seus ensinamentos, dedicação e esforços.
 
-\
+
 &nbsp;
 
 ## 🔵 Sobre nós
@@ -137,18 +137,18 @@ Agradecemos primeiramente a [Capgemini][CaPgEmInI] pela oportunidade e confianç
 * [Thiago Vinícius de Almeida Souza][ThIaGo]
 
 * [Tiago Cabral de Faria][TiAgo]
-\
+
 &nbsp;
 
 ##### `esperamos que gostem do resultado!`
-\
+
 &nbsp;
 
 > #️⃣GetTheFutureYouWant 
 >> #️⃣LifeAtCapgemini 
 >>> #️⃣ProudToBeCapgemini
 
-\
+
 &nbsp;
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://bitbucket.org/proway-turma-b-grupo-5/urna_eletronica/jira?statuses=new&statuses=indeterminate&sort=-updated&page=1)
